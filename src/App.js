@@ -6,14 +6,19 @@ import Rooms from './pages/Rooms';
 import Error from './pages/Error';
 import SingleRoom from './pages/SingleRoom';
 
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 function App() {
   return (
-    <>
-        <Home></Home>
-        <Rooms></Rooms>
-        <SingleRoom></SingleRoom>
-        <Error></Error>
-    </>
+    <Router>
+        <Switch>
+            <Route exact path="/" exact component={Home} />
+            <Route exact path="/rooms/" component={Rooms} />
+            <Route exact path="/rooms/:slug" component={SingleRoom} />
+
+            <Route component={Error} />
+        </Switch>
+    </Router>
   );
 }
 
