@@ -195,6 +195,7 @@ h6 {
 .banner p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
+    padding-top: 5px;
 }
 @media screen and (min-width: 576px) {
     .banner {
