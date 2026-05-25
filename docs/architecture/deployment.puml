@@ -1,0 +1,14 @@
+@startuml deployment
+title Deployment — static SPA
+
+skinparam shadowing false
+
+node Browser
+node "Static host\n(Cloudflare Pages / Vercel / GitHub Pages)" as host {
+  folder "dist/" as dist
+}
+
+[Vite build] --> dist : npm run build
+Browser --> dist : HTML/JS/CSS/JPEG
+Browser -> Browser : Router 6 client-side\nfor /, /rooms, /rooms/:slug, *
+@enduml
