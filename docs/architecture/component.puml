@@ -1,0 +1,56 @@
+@startuml component
+title Beach Resort — Component Architecture
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+actor User
+
+package "src/" {
+  [main.jsx\n(entry — BrowserRouter)] as main
+  [App.jsx\n(<Routes>)] as app
+  package "pages" {
+    [Home]
+    [Rooms]
+    [SingleRoom]
+    [NotFound]
+  }
+  package "components" {
+    [Navbar]
+    [Hero]
+    [Banner]
+    [RoomCard]
+    [RoomFilter]
+  }
+  package "services" {
+    [rooms-api\n(mock:// or http)] as api
+    [use-rooms hook] as hook
+    [filter-rooms\n(pure)] as filter
+    [findRoomBySlug\n(pure)] as find
+  }
+  [fixtures/rooms.js] as fixture
+}
+
+cloud "Optional CMS\n(VITE_API_BASE)" as cms
+
+User --> app
+app --> Home
+app --> Rooms
+app --> SingleRoom
+app --> NotFound
+Rooms --> RoomFilter
+Rooms --> RoomCard
+Rooms --> hook
+SingleRoom --> hook
+hook --> api
+api --> fixture : default
+api --> cms : when VITE_API_BASE set
+Rooms --> filter : useFilteredRooms(rooms, criteria)
+SingleRoom --> find
+
+note bottom of filter
+  Pure: filterRooms(rooms, criteria).
+  AND-semantics across type, capacity,
+  maxPrice, minSize, pets, breakfast.
+end note
+@enduml

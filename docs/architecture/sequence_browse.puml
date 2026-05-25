@@ -1,0 +1,34 @@
+@startuml sequence_browse
+title Sequence — browse rooms + view detail
+
+skinparam shadowing false
+
+actor User
+participant "App + Router" as App
+participant "Rooms page" as Rooms
+participant "useRooms" as Hook
+participant "rooms-api" as API
+participant "Fixture / CMS" as Source
+participant "SingleRoom page" as Single
+
+User -> App : GET /rooms
+App -> Rooms : route match
+Rooms -> Hook : useRooms()
+Hook -> API : fetchRooms()
+API -> Source : items[]
+Source --> API : OK
+API --> Hook : {ok, rooms}
+Hook --> Rooms : rooms, !loading
+Rooms -> Rooms : useFilteredRooms(rooms, criteria)
+Rooms --> User : grid of RoomCard
+
+User -> App : click Features link
+App -> Single : route match /rooms/:slug
+Single -> Hook : useRooms()  (cached re-fetch ok)
+Single -> Single : findRoomBySlug(rooms, slug)
+alt room found
+  Single --> User : full detail page
+else not found
+  Single --> User : 404 banner with back link
+end
+@enduml
