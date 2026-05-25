@@ -20,7 +20,7 @@ describe("RoomCard", () => {
     );
     expect(screen.getByText(/Single Deluxe/)).toBeInTheDocument();
     // Locale-aware price formatting may render with/without thousands separator
-    expect(screen.getByText(/R[\s ]?2[,.\s ]?200/)).toBeInTheDocument();
+    expect(screen.getByText(/R[\s ]?2[,.\s ]?200/)).toBeInTheDocument();
     const img = screen.getByRole("img");
     expect(img.getAttribute("alt")).toBe("Single Deluxe");
     expect(
